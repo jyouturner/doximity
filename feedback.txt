@@ -1,0 +1,31 @@
+
+Assumptions:
+
+1. upon inspecting the friendly vendor's API data, it appears the users are ordered by last name.
+2. assume the "specialty" value in both data sources follow the industry standard.
+3. when the location has more than one words, the Doximity value has space, while the vendor's data uses underscore '_'
+
+General Approach
+1. use async io to download by batches. In more complicated cases we often use queue for example Dramatic-Redis to fan
+out the tasks.
+2. when fetching Doximity users for matching, we query by range of last names. This way, given a list of vendor's users,
+which are ordered by last names, we have a smaller size of Doximity users (also ordered by last name).
+3. we will store those matched user's last active date (at vendor) in a separate table. The primary key, user_id, refer
+to the user's id, so we can compare the same user's last active date on both sites.
+
+Deployment Infrastructure
+1. One simple approach is to deploy this utility to AWS Lambda, and scheduled to run it each month.
+2. In the future we can run more reports etc on the downloaded data.
+
+
+Potential Usages
+1. It'd be interesting to compare the churn rate between the two services, for example, for the same set of Doximity
+user, does Doximity perform worse or better?
+2. Is there any correlation between user last active date between the two services? for example, users often stop visiting
+one before leaving the other?
+3. Is there any correlation between the churn rate and specialty? or location? Between the two services, is one more
+popular than the other in certain cities?
+4. The friendly vendor has one field that Doximity does not have, it is "user_type_classification", for example, "leader",
+or "contributor". How can we leverage this additional information? If necessary, we may add one more field to store the
+JSON user data in the user_vendor table for future refactoring.
+

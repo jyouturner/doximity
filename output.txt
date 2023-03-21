@@ -1,0 +1,19 @@
+Elapsed Time: 0 minutes 2 seconds
+Total Matches: 1000
+Sample Output:
+{'user_id': 100430, 'last_active_date_vendor': '2017-01-04'}	
+{'user_id': 437560, 'last_active_date_vendor': '2017-01-08'}	
+{'user_id': 666015, 'last_active_date_vendor': '2017-01-04'}	
+{'user_id': 2615, 'last_active_date_vendor': '2016-12-31'}	
+{'user_id': 908280, 'last_active_date_vendor': '2016-12-28'}	
+{'user_id': 181095, 'last_active_date_vendor': '2016-12-25'}	
+{'user_id': 407140, 'last_active_date_vendor': '2016-12-26'}	
+{'user_id': 310125, 'last_active_date_vendor': '2017-01-13'}	
+{'user_id': 1980, 'last_active_date_vendor': '2016-12-30'}	
+{'user_id': 366380, 'last_active_date_vendor': '2017-02-02'}	
+SQL DDL: 
+                create table user_vendor(user_id INT NOT NULL,last_active_date_vendor Date DEFAULT NULL,
+                    PRIMARY KEY (user_id),
+                    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(id)
+                );
+            
